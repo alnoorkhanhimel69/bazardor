@@ -62,6 +62,8 @@ export const auth = betterAuth({
   emailAndPassword: {
     enabled: true,
     minPasswordLength: 8,
+    // After registering, the user is sent to the sign-in page instead of being logged in.
+    autoSignIn: false,
     // Email verification and password reset are intentionally not implemented.
   },
   socialProviders,
