@@ -47,6 +47,10 @@ export default function SignUpForm() {
       return;
     }
 
+    // BetterAuth signs new users in automatically (so a duplicate email returns a clear
+    // error). The assignment sends them to the sign-in page, so end that session first.
+    await authClient.signOut();
+
     toast.success("অ্যাকাউন্ট তৈরি হয়েছে! এখন সাইন ইন করুন");
     router.push("/signin");
   }
