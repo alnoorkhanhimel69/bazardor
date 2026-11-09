@@ -1,36 +1,78 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# 🛒 বাজার দর (BazarDor)
 
-## Getting Started
+**বাজার দর** is a Bengali market-price tracker. It shows today's prices of everyday essentials — rice, lentils, oil, vegetables, fish, meat, eggs & dairy and spices — with price changes, market-wise breakdowns and a live price ticker.
 
-First, run the development server:
+> Built with Next.js (App Router), Tailwind CSS, DaisyUI and BetterAuth.
+
+## ✨ Features
+
+1. **Live price ticker** – an infinite scrolling strip of every product with its price and ▲/▼ change.
+2. **Daily movers** – "আজ দাম বেড়েছে" and "আজ দাম কমেছে" show the top 6 risers and fallers, plus a full "সব পণ্য" list.
+3. **Category pages with sorting** – sort by default, price low→high or high→low (sorted on the numeric value, displayed in Bengali digits).
+4. **Product details (protected)** – minimum, maximum and average price, price history and a market-by-market table.
+5. **Authentication with BetterAuth** – email/password, Google and GitHub login, toast messages, protected routes and skeleton loaders.
+6. **Profile & update information** – view your profile and change your name on a separate route.
+7. **Fully responsive** – mobile, tablet and desktop, with a custom 404 page and loading skeletons.
+
+## 🧰 Technologies
+
+| Purpose | Technology |
+|---|---|
+| Framework | Next.js 16 (App Router), React 19, TypeScript |
+| Styling | Tailwind CSS 4, DaisyUI 5 |
+| Auth | BetterAuth (email/password, Google, GitHub) |
+| Database | MongoDB Atlas |
+| Notifications | react-hot-toast |
+| Fonts | Noto Sans Bengali, Inter (via Fontsource) |
+| Data | BazarDor public REST API |
+
+## 🔌 API endpoints used
+
+- `GET /categories` – navbar and category cards
+- `GET /categories/:id` – category page header and slug validation
+- `GET /products` – home page, ticker, product lookup
+- `GET /products?category=:id` – category listing
+- `GET /products/:id` – product details
+
+Base URL: `https://api.api-store.workers.dev/api/bazardor`
+
+## 🚀 Getting started
 
 ```bash
+npm install
+cp .env.example .env.local   # then fill in the values
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Open <http://localhost:3000>.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Environment variables
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+| Variable | Description |
+|---|---|
+| `BETTER_AUTH_SECRET` | Random secret (`openssl rand -base64 32`) |
+| `BETTER_AUTH_URL` | Site URL, e.g. `http://localhost:3000` |
+| `MONGODB_URI` | MongoDB Atlas connection string |
+| `GOOGLE_CLIENT_ID`, `GOOGLE_CLIENT_SECRET` | Google OAuth (optional) |
+| `GITHUB_CLIENT_ID`, `GITHUB_CLIENT_SECRET` | GitHub OAuth (optional) |
 
-## Learn More
+OAuth callback URLs: `<BETTER_AUTH_URL>/api/auth/callback/google` and `<BETTER_AUTH_URL>/api/auth/callback/github`.
 
-To learn more about Next.js, take a look at the following resources:
+Without `MONGODB_URI` the app falls back to an in-memory database for quick local testing (accounts are lost on restart).
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+## ☁️ Deployment (Vercel)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+1. Push the repo to GitHub and import it in Vercel.
+2. Add the environment variables above (set `BETTER_AUTH_URL` to your Vercel URL).
+3. Add the Vercel URL to your Google/GitHub OAuth callback settings.
+4. Deploy. Dynamic routes (`/product/[slug]`, `/category/[slug]`) are rendered on the server, so refreshing any page works.
 
-## Deploy on Vercel
+## 🗂 Project structure
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+```
+src/
+  app/          routes (home, category, product, signin, signup, profile, api/auth)
+  components/   Navbar, PriceTicker, ProductCard, forms, ...
+  lib/          API client, formatting helpers, auth config
+  proxy.ts      route protection for private pages
+```
