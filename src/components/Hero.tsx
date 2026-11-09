@@ -38,7 +38,7 @@ export default function Hero() {
           <p className="inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-semibold text-secondary-content">
             <BanglaDate />
           </p>
-          <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl md:text-5xl">
+          <h1 className="mt-4 text-3xl leading-tight font-extrabold sm:text-4xl">
             আজকের বাজারের দাম এক নজরে
           </h1>
           <p className="mt-4 max-w-xl text-muted">
